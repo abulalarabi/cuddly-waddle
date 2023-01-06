@@ -1,56 +1,40 @@
-var width, height, center;
-var points = 10;
-var smooth = true;
-var path = new Path();
-var mousePos = view.center / 2;
-var pathHeight = mousePos.y;
-path.fillColor = 'black';
-initializePath();
+// Adapted from the following Processing example:
+// http://processing.org/learning/topics/follow3.html
 
-function initializePath() {
-	center = view.center;
-	width = view.size.width;
-	height = view.size.height / 2;
-	path.segments = [];
-	path.add(view.bounds.bottomLeft);
-	for (var i = 1; i < points; i++) {
-		var point = new Point(width / points * i, center.y);
-		console.log(point);
-		path.add(point);
-	}
-	path.add(view.bounds.bottomRight);
-	path.fullySelected = true;
-}
+// The amount of points in the path:
+var points = 25;
 
-function onFrame(event) {
-	pathHeight += (center.y - mousePos.y - pathHeight) / 10;
-	for (var i = 1; i < points; i++) {
-		var sinSeed = event.count + (i + i % 10) * 100;
-		var sinHeight = Math.sin(sinSeed / 200) * pathHeight;
-		var yPos = Math.sin(sinSeed / 100) * sinHeight + height;
-		path.segments[i].point.y = yPos;
-	}
-	if (smooth)
-		path.smooth({ type: 'continuous' });
-}
+// The distance between the points:
+var length = 35;
+
+var path = new Path({
+	strokeColor: '#E4141B',
+	strokeWidth: 20,
+	strokeCap: 'round'
+});
+
+var start = view.center / [10, 1];
+for (var i = 0; i < points; i++)
+	path.add(start + new Point(i * length, 0));
 
 function onMouseMove(event) {
-	mousePos = event.point;
+	path.firstSegment.point = event.point;
+	for (var i = 0; i < points - 1; i++) {
+		var segment = path.segments[i];
+		var nextSegment = segment.next;
+		var vector = segment.point - nextSegment.point;
+		vector.length = length;
+		nextSegment.point = segment.point - vector;
+	}
+	path.smooth({ type: 'continuous' });
 }
 
 function onMouseDown(event) {
-	smooth = !smooth;
-	if (!smooth) {
-		// If smooth has been turned off, we need to reset
-		// the handles of the path:
-		for (var i = 0, l = path.segments.length; i < l; i++) {
-			var segment = path.segments[i];
-			segment.handleIn = segment.handleOut = null;
-		}
-	}
+	path.fullySelected = true;
+	path.strokeColor = '#e08285';
 }
 
-// Reposition the path whenever the window is resized:
-function onResize(event) {
-	initializePath();
+function onMouseUp(event) {
+	path.fullySelected = false;
+	path.strokeColor = '#e4141b';
 }
