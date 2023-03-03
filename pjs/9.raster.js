@@ -13,12 +13,15 @@ var counter = 0;
 
 function onMouseDown(event)
 {
-    clickedpoint = event.point;
+    clickedpoint = event.point; // get the target point
     
-    path = new Path();
+    path = new Path();          // new path
 
-    path.add(turtle.position);
-    path.add(clickedpoint);
+    path.add(turtle.position);  // start point
+    path.add(clickedpoint);     // end point
+
+    path.strokeWidth = 5;       // makes the path visible
+    path.strokeColor = 'black';
 
     counter = 0;
 }
@@ -33,9 +36,14 @@ function onFrame(event)
         var point = path.getPointAt(offset);
         var angle = path.getTangentAt(offset).angle;
         
-        turtle.position = point;
-        turtle.rotation = angle;
+        turtle.position = point;    // translate position
+        turtle.rotation = angle;    // orient with the path
 
         counter = counter + 0.01;
     }
+    else
+    {
+        path.strokeWidth = 0;   // makes the path invisible
+    }
 }
+
