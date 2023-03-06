@@ -1,7 +1,10 @@
-// some random points
+// example point
 var point1 = new Point(20,50);
-var point2 = new Point(320,300);
-var point3 = new Point(640,50);
+
+// add three more points
+//*** your code ***//
+
+
 
 // declare a new path
 var path = new Path();
@@ -10,10 +13,14 @@ var path = new Path();
 path.strokeColor = 'black';
 path.strokeWidth = 30;
 
-// add points to the path
+// example adding points to the path
 path.add(point1);
-path.add(point2);
-path.add(point3);
+
+
+// add your points to the path
+//*** your code ***//
+
+
 
 // uncomment the following and check the outcome 
 //path.selected = true;

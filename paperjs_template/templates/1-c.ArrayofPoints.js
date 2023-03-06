@@ -9,17 +9,19 @@ var y = [30.0, 34.33883739, 37.81831482, 39.74927912, 39.74927912,
        20.25072088, 20.25072088, 22.18168518, 25.66116261, 30.0]
 
 // create a new path
-var path = new Path();
+//*** your code ***//
 
-// stylize the path
-path.strokeColor = 'black';
-path.strokeWidth = 5;
 
-// now add all the points to the path
-for(var i=0; i<x.length; i++){
-    var point = new Point(x[i], y[i]);
-    path.add(point);
-}
+
+// stylize: strokeWidth and strokeColor
+//*** your code ***//
+
+
+
+// now use a for loop to add all the points to the path
+//*** your code ***//
+
+
 
 // uncomment the following and check the outcome 
 //path.selected = true;
