@@ -1,49 +1,40 @@
-var url = 'https://github.com/abulalarabi/cuddly-waddle/raw/main/raster/turtlejs.png';
-var turtle = new Raster(url);
+// Adapted from the following Processing example:
+// http://processing.org/learning/topics/follow3.html
 
-// If you create a Raster using a url, you can use the onLoad
-// handler to do something once it is loaded:
-turtle.onLoad = function() {
-    console.log('The image has loaded.');
-};
+// The amount of points in the path:
+var points = 25;
 
-var clickedpoint = null;
-var path = new Path();
-var counter = 0;
+// The distance between the points:
+var length = 35;
 
-function onMouseDown(event)
-{
-    clickedpoint = event.point; // get the target point
-    
-    path = new Path();          // new path
+var path = new Path({
+	strokeColor: '#E4141B',
+	strokeWidth: 20,
+	strokeCap: 'round'
+});
 
-    path.add(turtle.position);  // start point
-    path.add(clickedpoint);     // end point
+var start = view.center / [10, 1];
+for (var i = 0; i < points; i++)
+	path.add(start + new Point(i * length, 0));
 
-    path.strokeWidth = 5;       // makes the path visible
-    path.strokeColor = 'black';
-
-    counter = 0;
+function onMouseMove(event) {
+	path.firstSegment.point = event.point;
+	for (var i = 0; i < points - 1; i++) {
+		var segment = path.segments[i];
+		var nextSegment = segment.next;
+		var vector = segment.point - nextSegment.point;
+		vector.length = length;
+		nextSegment.point = segment.point - vector;
+	}
+	path.smooth({ type: 'continuous' });
 }
 
-
-function onFrame(event)
-{
-    if(path.length>0 && counter<1)
-    {
-        var offset = counter*path.length;
-
-        var point = path.getPointAt(offset);
-        var angle = path.getTangentAt(offset).angle;
-        
-        turtle.position = point;    // translate position
-        turtle.rotation = angle;    // orient with the path
-
-        counter = counter + 0.01;
-    }
-    else
-    {
-        path.strokeWidth = 0;   // makes the path invisible
-    }
+function onMouseDown(event) {
+	path.fullySelected = true;
+	path.strokeColor = '#e08285';
 }
 
+function onMouseUp(event) {
+	path.fullySelected = false;
+	path.strokeColor = '#e4141b';
+}
