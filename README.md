@@ -1,8 +1,9 @@
-# CSCE 436
+# CSCE 436 Paper.js
 Computer-Human Interaction
 
-## Installing Python
-If you are using MAC or Linux, you probably have already python installed. You can either use terminal/powershell or your favorite python IDE, such as PyCharm. Here is the link for PyCharm : https://www.jetbrains.com/pycharm/. You can use PyCharm community version for free.
+## Dependencies
+Install Node.js and NPM. If you are using windows, follow the tutorial from [here](https://github.com/abulalarabi/nodejs_windows)
 
-## Python Dependencies
-If you are using Ubuntu/Mint probably you already have pip installed. To check
+## Template
+
+
